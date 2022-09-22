@@ -11,6 +11,7 @@
 - Animation/Animator
 - Prefabs
 - Sprite 
+- Audio Source
 - Input operations
 - Level designing
 
