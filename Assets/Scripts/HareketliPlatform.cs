@@ -6,33 +6,28 @@ public class HareketliPlatform : MonoBehaviour
 {
     [SerializeField]
     Rigidbody2D Rb;
- 
+
+    [SerializeField]  float a,b,speed;
     Vector2 move;
     Vector2 move2;
 
-   public float vertical = 0.5f;
+    float vertical = 1f;
 
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
-        move = Rb.position + new Vector2(0, 1);
-        move2 = Rb.position - new Vector2(0, 1);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        move = Rb.position + new Vector2(0, a);
+        move2 = Rb.position - new Vector2(0, b);
     }
     private void FixedUpdate()
     {
         
         //print(Rb.position);
-        if (Rb.position == move || Rb.position == move2)
+        if (Rb.position.y >= move.y || Rb.position.y <= move2.y)
         {
-            vertical = vertical*(-1);
+            vertical *= (-1);
         }
-        Rb.velocity = new Vector2(0, vertical);
+        Rb.velocity = speed * Time.deltaTime * new Vector2(0, vertical);
 
     }  
 } 

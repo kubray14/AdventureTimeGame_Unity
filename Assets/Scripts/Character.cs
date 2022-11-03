@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField]
-    float Speed;
 
     [SerializeField]
     Rigidbody2D Rb;
@@ -42,16 +40,22 @@ public class Character : MonoBehaviour
     [SerializeField]
     Text scoreText;
 
+    [SerializeField]
+    Text StarText;
+
+    [SerializeField]
+    float Speed,jumpHeight;
+
+
     string level;
 
     public static bool degdiMi , finished = false;
     public static int score = 0;
-    public float jumpHeight;
     public bool isJumping = false;
     public static bool isGameStarted = false;
     bool isRun, isFalling = false;
     bool nextLevelFreeze = false;
-   
+    int star;
     void Start()
     {
         level = SceneManager.GetActiveScene().name;
@@ -59,11 +63,17 @@ public class Character : MonoBehaviour
         {
             startPanel.SetActive(false);
         }
-    }
 
-    // Update is called once per frame
+        if (level == "Level1")
+        {
+            PlayerPrefs.SetInt("star", 0);
+        }
+        star = PlayerPrefs.GetInt("star");
+        print(PlayerPrefs.GetInt("star"));
+    }
     void Update()
     {
+       
         if (GameManager.onOff)
         {
             gameMusic.mute = false;
@@ -104,23 +114,20 @@ public class Character : MonoBehaviour
         }
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        //print(horizontal);
-        
+
+
         Rb.velocity = new Vector2(horizontal * Speed, Rb.velocity.y);
-        animasyon(horizontal);
-        turnMove(horizontal);
+        Animasyon(horizontal);
+        TurnMove(horizontal);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Terrain" || collision.gameObject.tag == "Disappear")
+        if(collision.gameObject.CompareTag("Terrain") || collision.gameObject.tag == "Disappear")
         {
             isJumping = false;
             anim.SetBool("isJump", isJumping);
         }
-        /*if (collision.gameObject.CompareTag("Disappear"))
-        {
-            Destroy(collision.gameObject, 2f);
-        }*/
+      
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -129,7 +136,7 @@ public class Character : MonoBehaviour
         {
             if (collision.CompareTag("Fruit"))
             {
-                addScore(collision, 1);
+                AddScore(collision, 1);
                 scoreText.text = ": " + score.ToString();
             }
             else if (collision.CompareTag("DeathStick"))
@@ -140,8 +147,10 @@ public class Character : MonoBehaviour
             }
             else if (collision.CompareTag("flag") && score == 10)
             {
-                if (SceneManager.GetActiveScene().name == "Level3")
+                if (SceneManager.GetActiveScene().name == "Level7")
                 {
+                    PlayerPrefs.SetInt("star", star);
+                    StarText.text = ": " + PlayerPrefs.GetInt("star").ToString() + "/ 10";
                     degdiMi = true;
                     gameFinish.Play();
                     anim.speed = 0;
@@ -151,6 +160,7 @@ public class Character : MonoBehaviour
                 }
                 else
                 {
+                    PlayerPrefs.SetInt("star", star);
                     degdiMi = true;
                     gameFinish.Play();
                     anim.speed = 0;
@@ -165,23 +175,30 @@ public class Character : MonoBehaviour
                 death.Play();
                 restartPanel.SetActive(true);
             }
+            else if (collision.CompareTag("star"))
+            {
+                star++;
+                Destroy(collision.gameObject);
+                collect.Play();
+            }
+         
 
         }
     }
 
     
-    void addScore(Collider2D collision, int add)
+    void AddScore(Collider2D collision, int add)
     {
         score += add;
         collect.Play();
         Destroy(collision.gameObject);
     }
-    public void startGame()
+    public void StartGame()
     {
         isGameStarted = true;
         startPanel.SetActive(false);
     }
-    void animasyon(float horizontal)
+    void Animasyon(float horizontal)
     {
         if (horizontal != 0)
         {
@@ -193,7 +210,7 @@ public class Character : MonoBehaviour
         }
         anim.SetBool("isRun", isRun);
     }
-    void turnMove(float horizontal)
+    void TurnMove(float horizontal)
     {
         if (horizontal > 0)
         {
@@ -205,3 +222,4 @@ public class Character : MonoBehaviour
         }
     }
 }
+
