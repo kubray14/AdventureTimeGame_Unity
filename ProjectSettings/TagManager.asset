@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Terrain
+  - spike
+  - flag
+  - DeathStick
+  - Fruit
+  - Chest
+  - Disappear
+  - star
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Background
+  - Terrain
+  - Character
+  - Fruit
+  - Flag
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3714697709
+    locked: 0
+  - name: DangerBack
+    uniqueID: 1682439885
+    locked: 0
+  - name: Terrain
+    uniqueID: 2960573709
+    locked: 0
+  - name: Danger
+    uniqueID: 3016231583
+    locked: 0
+  - name: Chest
+    uniqueID: 1481920637
+    locked: 0
+  - name: Fruit
+    uniqueID: 1651663489
+    locked: 0
+  - name: Character
+    uniqueID: 1472974141
+    locked: 0
